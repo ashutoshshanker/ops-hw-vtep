@@ -1,0 +1,5 @@
+[gerrit]
+host=review.openswitch.net
+port=29418
+piroject=openswitch/ops-hw-vtep
+
