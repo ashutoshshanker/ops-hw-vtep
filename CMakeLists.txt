@@ -33,6 +33,7 @@ include_directories (${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/${INCL_DIR}
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Wall -Werror")
 
 # Source files to build ops-hw-vtep
+set (SOURCES ${SRC_DIR}/dummy.c)
 
 # Rules to build ops-hw-vtep
 add_executable (${HW-VTEP} ${SOURCES})
