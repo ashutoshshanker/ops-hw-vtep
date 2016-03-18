@@ -176,9 +176,9 @@ controllers.
 ## Sync OVSDB to HW VTEP
 
 OVSDB maintains tunnel interfaces and access port bindings to tunnel keys.
-vswitchd learns local MACs on its tunneled access ports and updates its MAC
+vswitchd learns local MACs on the ports and updates the MAC
 table. vtepd is responsible to sync that table to HW VTEP database.
-One that happens, the network controller distributes the physical switch
+When that happens, the network controller distributes the physical switch
 information across the VTEPs in the network.
 
 <div id='ovsdb-daemon-support-for-hw-vtep'/>
@@ -204,8 +204,7 @@ controller to avoid "flood and learn".
 
 The bridge module registers a MAC learning callback. It wakes up vswitchd
 on MAC a single MAC update or a burst of MAC updates.
-vswitchd wakes up and copies MAC entries to MAC table in OVSDB and then
-frees up these hash entries.
+vswitchd wakes up and populates/updates the entries in the MAC table.
 
 <div id='setting-vxlan-tunnels'/>
 ## Setting VXLAN tunnels
@@ -248,10 +247,9 @@ IP match.
 <div id='mac-learning-on-a-vxlan-tunnel'/>
 ## MAC learning on a VXLAN tunnel
 
-The bridge module registers a MAC learning callback. It maintains a hash
-of learned MACs and wakes up vswitchd poll\_block using a seq\_change update.
-vswitchd wakes up and updates up to a maximum of N MACs to OVSDB in one run.
-If the hash has more than N MAC entries it scheduled another wakeup.
+The bridge module registers a MAC learning callback. The provider maintains a
+hash of new/deleted learned MACs and wakes up vswitchd poll\_block using a seq\_change
+update. vswitchd then wakes up and updates up to a maximum of N MACs to OVSDB in one run.
 
 <div id='cli-and-debug-utility'/>
 ## CLI and debug utility
@@ -320,7 +318,7 @@ controller.
 
 * MAC learning
 
-  A new ofproto function to return N learned MACs. See MAC learning.
+  A new ofproto provider function to return N learned MACs. See MAC learning.
 
 
 <div id='simulation-provider-support'/>
