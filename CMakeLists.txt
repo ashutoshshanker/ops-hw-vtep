@@ -24,22 +24,25 @@ set (INCL_DIR include)
 include(FindPkgConfig)
 pkg_check_modules(OVSCOMMON REQUIRED libovscommon)
 pkg_check_modules(OVSDB REQUIRED libovsdb)
+pkg_check_modules(VTEP REQUIRED libvtep)
 
 include_directories (${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/${INCL_DIR}
                      ${OVSCOMMON_INCLUDE_DIRS}
 )
 
 # Define compile flags
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Wall -Werror")
+#set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Wall -Werror")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -g")
 
 # Source files to build ops-hw-vtep
-set (SOURCES ${SRC_DIR}/dummy.c)
+set (SOURCES ${SRC_DIR}/vtep_main.c
+             ${SRC_DIR}/vtep_ovsdb_if.c)
 
 # Rules to build ops-hw-vtep
 add_executable (${HW-VTEP} ${SOURCES})
 
 target_link_libraries (${HW-VTEP} ${OVSCOMMON_LIBRARIES} ${OVSDB_LIBRARIES}
-                       -lpthread -lrt)
+                       ${VTEP_LIBRARIES} -lpthread -lrt)
 
 # Rules to install ops-hw-vtep binary in rootfs
 install(TARGETS ${HW-VTEP}
